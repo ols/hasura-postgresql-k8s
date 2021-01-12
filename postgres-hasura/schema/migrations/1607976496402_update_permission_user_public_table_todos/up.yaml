@@ -1,0 +1,25 @@
+- args:
+    permission:
+      allow_aggregations: false
+      backend_only: false
+      columns:
+      - is_completed
+      - is_public
+      - id
+      - text
+      - user_id
+      - created_at
+      - updated_at
+      computed_fields: []
+      filter:
+        _or:
+        - is_public:
+            _eq: true
+        - user_id:
+            _eq: X-Hasura-User-Id
+      limit: null
+    role: user
+    table:
+      name: todos
+      schema: public
+  type: create_select_permission

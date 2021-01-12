@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: coregonus-db
+
+  labels:
+    component: hasura
+
+spec:
+  selector:
+    component: hasura
+
+  ports:
+  - name: http-api
+    port: 80
+    targetPort: 8080

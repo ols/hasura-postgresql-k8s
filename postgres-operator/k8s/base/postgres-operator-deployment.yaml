@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-operator
+
+spec:
+  template:
+    spec:
+      serviceAccountName: postgres-operator
+
+      containers:
+      - name: postgres-operator
+        image: registry.opensource.zalan.do/acid/postgres-operator:v1.5.0
+
+        env:
+        - name: CONFIG_MAP_NAME
+          value: "postgres-operator"
+
+        resources:
+          requests:
+            cpu: 100m
+            memory: 250Mi
+          limits:
+            cpu: 500m
+            memory: 500Mi
+
+        securityContext:
+          runAsUser: 1000
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true

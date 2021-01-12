@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-operator
+
+spec:
+  selector:
+    name: postgres-operator
+
+  ports:
+  - port: 8080

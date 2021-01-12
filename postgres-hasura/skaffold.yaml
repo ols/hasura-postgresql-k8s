@@ -1,0 +1,6 @@
+apiVersion: skaffold/v1beta13
+kind: Config
+
+deploy:
+  kustomize:
+    path: ./k8s/dev

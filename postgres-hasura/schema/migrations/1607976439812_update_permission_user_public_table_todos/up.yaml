@@ -1,0 +1,24 @@
+- args:
+    permission:
+      allow_upsert: true
+      backend_only: false
+      check:
+        _or:
+        - is_public:
+            _eq: true
+        - user_id:
+            _eq: X-Hasura-User-Id
+      columns:
+      - id
+      - text
+      - is_completed
+      - created_at
+      - updated_at
+      - is_public
+      - user_id
+      set: {}
+    role: user
+    table:
+      name: todos
+      schema: public
+  type: create_insert_permission

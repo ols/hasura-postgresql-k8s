@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coregonus-db
+
+  labels:
+    component: hasura
+
+spec:
+  replicas: 1
+
+  template:
+    metadata:
+      labels:
+        component: hasura
+
+    spec:
+      serviceAccountName: coregonus-db
+
+      containers:
+      - name: hasura
+        image: hasura/graphql-engine:latest
+
+        env:
+        - name: HASURA_GRAPHQL_ENABLE_CONSOLE
+          value: "true"
+
+        - name: HASURA_GRAPHQL_ADMIN_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: coregonus
+              key: graphql-admin-secret
+
+        - name: HASURA_GRAPHQL_DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: coregonus
+              key: admin-conn-str
+
+        - name: HASURA_GRAPHQL_JWT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: coregonus-db-jwt-config
+              key: jwt-config.json
+
+        - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+          value: anonymous
+
+        - name: HASURA_GRAPHQL_ENABLE_TELEMETRY
+          value: "false"
+
+        ports:
+        - name: http-api
+          containerPort: 8080
+
+        resources:
+          limits:
+            memory: 2048Mi
+            cpu: 4000m
+          requests:
+            memory: 64Mi
+            cpu: 10m

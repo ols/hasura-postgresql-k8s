@@ -1,0 +1,28 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: app-coregonus-db
+
+  labels:
+    component: postgres
+
+spec:
+  teamId: app
+
+  volume:
+    size: 10Gi
+
+  numberOfInstances: 2
+  users:
+
+    coregonus:  # database owner
+    - superuser
+    - createdb
+
+    coregonus_app: [] 
+
+  databases:
+    coregonus: coregonus  # dbname: owner
+
+  postgresql:
+    version: "11"
